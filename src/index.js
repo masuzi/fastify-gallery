@@ -2,9 +2,8 @@ const fastify = require('fastify')({
 	logger: true
 });
 
-fastify.get('/', async (request, reply) => {
-	return { hello: 'world' };
-});
+// Rsegister plugins below:
+fastify.register(require('./routes/status'));
 
 const start = async () => {
 	try {
