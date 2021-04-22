@@ -4,6 +4,7 @@ const fastify = require('fastify')({
 
 // Rsegister plugins below:
 fastify.register(require('./routes/status'));
+fastify.register(require('./db/dbConnector'));
 
 const start = async () => {
 	try {
