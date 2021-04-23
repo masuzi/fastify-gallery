@@ -1,4 +1,6 @@
-async function routes(fastify, options) {
+const fp = require('fastify-plugin');
+
+const status = async (server, opts) => {
 	const collection = fastify.mongo.db.collection('test_collection');
 
 	fastify.get('/', async (request, reply) => {
@@ -12,14 +14,6 @@ async function routes(fastify, options) {
 		}
 		return result;
 	});
+};
 
-	fastify.get('/animals/:animal', async (request, reply) => {
-		const result = await collection.findOne({ animal: request.params.animal });
-		if (result === null) {
-			throw new Error('Invalid value');
-		}
-		return result;
-	});
-}
-
-module.exports = routes;
+module.exports = fp(status);
