@@ -1,14 +1,15 @@
 var mongoose = require('mongoose');
 
 var gallery = mongoose.Schema({
-	public_id: {
-		type: String
-	},
-	url: {
+	id: {
 		type: String,
 		required: true
 	},
-	secureUrl: {
+	name: {
+		type: String,
+		required: true
+	},
+	path: {
 		type: String,
 		required: true
 	}
