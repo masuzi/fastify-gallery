@@ -1,12 +1,4 @@
 const fp = require('fastify-plugin');
-const cloudinary = require('cloudinary').v2;
-
-// cloudinary configuration
-cloudinary.config({
-	cloud_name: 'drquzbncy',
-	api_key: '984335248326161',
-	api_secret: 'qEYQI7ERQzqJQBPaYxrjMJ7ZVKA'
-});
 
 const gallery = async (server, opts) => {
 	server.route({
@@ -16,8 +8,8 @@ const gallery = async (server, opts) => {
 		handler: async (request, reply) => {
 			// request.file is the `avatar` file
 			// request.body will hold the text fields, if there were any
-			const { gallery } = server.db.models;
-			const data = await gallery.find({});
+			const { Gallery } = server.db.models;
+			const data = await Gallery.find({});
 			reply.code(200).send({ message: 'SUCCESS', data });
 		}
 	});
@@ -25,14 +17,18 @@ const gallery = async (server, opts) => {
 	server.route({
 		method: 'POST',
 		url: '/gallery',
-		preHandler: server.multer.upload.single('upload'),
+		preHandler: server.multer.parser.single('upload'),
 		handler: async (request, reply) => {
 			// request.file is the `avatar` file
 			// request.body will hold the text fields, if there were any
-			const { gallery } = server.db.models;
-			// const data = await gallery.save();
-			const image = { ...request.file, filename: new Date().toDateString() + '-' + request.file.originalname };
-			reply.code(200).send({ message: 'SUCCESS', data: image });
+			const { Gallery } = server.db.models;
+			const image = new Gallery({
+				filename: request.file.filename,
+				originalname: request.file.originalname,
+				url: request.file.path
+			});
+			const data = await image.save();
+			reply.code(200).send({ message: 'SUCCESS', data });
 		}
 	});
 };

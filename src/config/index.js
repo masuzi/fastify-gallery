@@ -1,8 +1,8 @@
 const fp = require('fastify-plugin');
 const mongoose = require('mongoose');
-const gallery = require('./models/gallery');
+const Gallery = require('./models/gallery');
 
-const models = { gallery };
+const models = { Gallery };
 
 const ConnectDB = async (fastify, options) => {
 	try {

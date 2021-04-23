@@ -1,15 +1,15 @@
 var mongoose = require('mongoose');
 
 var gallery = mongoose.Schema({
-	id: {
+	filename: {
 		type: String,
 		required: true
 	},
-	name: {
+	originalname: {
 		type: String,
 		required: true
 	},
-	path: {
+	url: {
 		type: String,
 		required: true
 	}

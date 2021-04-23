@@ -1,11 +1,28 @@
 const fastify = require('fastify')({ logger: true });
-const multer = require('fastify-multer'); // or import multer from 'fastify-multer'
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const multer = require('fastify-multer');
 const db = require('./config/index');
-// const gallery = require('./config/models/gallery');
 const Port = process.env.PORT || 7000;
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/text-gallery';
 
-const upload = multer({ dest: 'uploads/' });
+// cloudinary configuration
+cloudinary.config({
+	cloud_name: 'drquzbncy',
+	api_key: '984335248326161',
+	api_secret: 'qEYQI7ERQzqJQBPaYxrjMJ7ZVKA'
+});
+
+const storage = new CloudinaryStorage({
+	cloudinary: cloudinary,
+	params: {
+		folder: 'fastify-gallery',
+		allowedFormats: [ 'jpg', 'png' ],
+		transformation: [ { width: 500, height: 500, crop: 'limit' } ]
+	}
+});
+
+const parser = multer({ storage });
 
 // Rsegister plugins below:
 // register fastify content parser
@@ -14,8 +31,7 @@ fastify.register(multer.contentParser);
 fastify.register(require('./routes/status'));
 fastify.register(require('./routes/gallery'));
 
-fastify.decorate('multer', { upload });
-// fastify.decorate('db', { gallery });
+fastify.decorate('multer', { parser });
 
 const start = async () => {
 	try {
