@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
+const cors = require('fastify-cors');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('fastify-multer');
@@ -28,6 +29,7 @@ const parser = multer({ storage });
 // Rsegister plugins below:
 // register fastify content parser
 fastify.register(db, { uri });
+fastify.register(cors, { origin: 'http://localhost:3000' });
 fastify.register(multer.contentParser);
 fastify.register(require('./routes/status'));
 fastify.register(require('./routes/gallery'));
