@@ -1,16 +1,17 @@
+require('dotenv').config();
 const fastify = require('fastify')({ logger: true });
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('fastify-multer');
 const db = require('./config/index');
-const Port = process.env.PORT || 7000;
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/text-gallery';
+const Port = process.env.PORT;
+const uri = process.env.MONGODB_URI;
 
 // cloudinary configuration
 cloudinary.config({
-	cloud_name: 'drquzbncy',
-	api_key: '984335248326161',
-	api_secret: 'qEYQI7ERQzqJQBPaYxrjMJ7ZVKA'
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_KEY,
+	api_secret: process.env.CLOUD_SECRET
 });
 
 const storage = new CloudinaryStorage({
