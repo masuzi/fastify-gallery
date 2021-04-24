@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
 	params: {
 		folder: 'fastify-gallery',
 		allowedFormats: [ 'jpg', 'png' ],
-		transformation: [ { width: 600, height: 600, crop: 'limit' } ]
+		transformation: [ { width: 800, height: 800, crop: 'limit' } ]
 	}
 });
 
