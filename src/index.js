@@ -29,7 +29,9 @@ const parser = multer({ storage });
 // Rsegister plugins below:
 // register fastify content parser
 fastify.register(db, { uri });
-fastify.register(cors, { origin: "http://localhost:3000" });
+fastify.register(cors, {
+  origin: ["http://localhost:3000", "https://simantep.maannawawi.sch.id"],
+});
 fastify.register(multer.contentParser);
 fastify.register(require("./routes/status"));
 fastify.register(require("./routes/gallery"));
